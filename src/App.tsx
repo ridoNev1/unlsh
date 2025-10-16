@@ -14,7 +14,7 @@ import gallery5 from "./assets/gallery-5.jpg";
 import gallery7 from "./assets/gallery-7.jpg";
 import gallery8 from "./assets/gallery-8.jpg";
 import EtiquetteCenter from "./assets/etiquette-center.jpg";
-import TestimoniTitle from "./assets/testimoni-title.png";
+import TestimoniTitle from "./assets/Testimoni-title.png";
 import galleryLargeA from "./assets/gallery-large-1.jpg";
 import galleryLargeB from "./assets/gallery-large-2.jpg";
 import galleryLargeC from "./assets/gallery-large-3.jpg";
