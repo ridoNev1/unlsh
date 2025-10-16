@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Iowan";
+  src: url("./assets/IowanOldStyle.ttc") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "AvenirNext";
+  src: url("./assets/Avenir.ttc") format("truetype");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "AvenirNext", "Helvetica Neue", Arial, sans-serif;
+  background-color: #120104;
+  color: #fff;
+}
+
+.font-iowan {
+  font-family: "Iowan", "Times New Roman", serif;
+}
+
+.font-avenir {
+  font-family: "AvenirNext", "Helvetica Neue", Arial, sans-serif;
+}
+
+.font-script {
+  font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+  letter-spacing: 0.02em;
+}
+
+.pattern-us {
+  background-image: radial-gradient(circle at 8px 8px, rgba(255, 255, 255, 0.05) 2px, transparent 0),
+    radial-gradient(circle at 40px 40px, rgba(255, 255, 255, 0.04) 2px, transparent 0);
+  background-size: 48px 48px;
+}
+
+.beige-background {
+  background-color: #f7ede1;
+}
