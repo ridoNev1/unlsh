@@ -292,7 +292,7 @@ const App = () => {
                 </h1> */}
                 <img src={HeroTypography} alt="herotypography" />
               </div>
-              <p className="max-w-xl text-center font-medium text-[12px] uppercase tracking-[0.32em] text-[#9d4b45]">
+              <p className="max-w-xl text-center font-medium text-[12px] uppercase text-[#9d4b45]">
                 Expect captivating performances, playful connections, and our DJ
                 close to the crowd with sensual rhythms that awaken every
                 sensation. A night of elegance, intimacy, and unforgettable
