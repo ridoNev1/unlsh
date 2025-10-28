@@ -506,7 +506,7 @@ const App = () => {
                 {SOCIETY_HIGHLIGHTS.map((item) => (
                   <article
                     key={item.title}
-                    className="rounded-[24px] border border-white/15 bg-black/35 px-6 py-8 shadow-lg backdrop-blur"
+                    className="border border-white/15 bg-black/35 px-6 py-8 shadow-lg backdrop-blur"
                   >
                     <h4 className="font-iowan text-lg uppercase tracking-[0.45em] text-[#ff3f43]">
                       {item.title}
@@ -525,7 +525,7 @@ const App = () => {
                 {OFFERINGS.map((item) => (
                   <article
                     key={item.title}
-                    className="flex flex-col rounded-[32px] border border-white/15 bg-black/40 px-10 py-10 shadow-lg"
+                    className="flex flex-col border border-white/15 bg-black/40 px-10 py-10 shadow-lg"
                   >
                     <h4 className="mt-4 font-iowan text-3xl text-[#ff3944]">
                       {item.title}
