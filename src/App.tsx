@@ -23,6 +23,7 @@ import importantBg from "./assets/important-bg.png";
 import RevolutionText from "./assets/revolution-text.png";
 import EtiquetteRight from "./assets/basic-ettique-title.png";
 import EtiquetteGal from "./assets/etiquette-right.jpg";
+import HeroTypography from "./assets/hero-typography.png";
 
 import FaqTittle from "./assets/faq-title.png";
 
@@ -273,8 +274,8 @@ const App = () => {
         >
           <div className="flex min-h-[520px] flex-col justify-center px-8 py-16 text-[#7b131e] md:pl-[8vw] md:pr-[6vw] ">
             <div className="space-y-8">
-              <div className="space-y-6">
-                <h1 className="font-bo text-center text-[58px] leading-[1.08] uppercase tracking-[0.22em] text-[#7d0e1a]">
+              <div className="space-y-6 px-12">
+                {/* <h1 className="font-bo text-center text-[58px] leading-[1.08] uppercase tracking-[0.22em] text-[#7d0e1a]">
                   <span className="block">We Are</span>
                   <span className="block">UNLSH</span>
                   <span className="block">
@@ -288,7 +289,8 @@ const App = () => {
                     </span>
                     CIETY
                   </span>
-                </h1>
+                </h1> */}
+                <img src={HeroTypography} alt="herotypography" />
               </div>
               <p className="max-w-xl text-center font-medium text-[12px] uppercase tracking-[0.32em] text-[#9d4b45]">
                 Expect captivating performances, playful connections, and our DJ
@@ -378,7 +380,7 @@ const App = () => {
           <div className="flex items-center justify-center gap-6 px-6 text-[#7d0f16]">
             <div className="flex items-center gap-6 py-5">
               <span className="text-2xl sm:text-3xl">←</span>
-              <h2 className="font-bo text-[48px] leading-none tracking-[0.22em] uppercase">
+              <h2 className="font-bo text-center text-[48px] leading-none tracking-[0.22em] uppercase">
                 Our Values
               </h2>
               <span className="text-2xl sm:text-3xl">→</span>
