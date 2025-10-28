@@ -274,7 +274,7 @@ const App = () => {
           <div className="flex min-h-[520px] flex-col justify-center px-8 py-16 text-[#7b131e] md:pl-[8vw] md:pr-[6vw] ">
             <div className="space-y-8">
               <div className="space-y-6">
-                <h1 className="font-iowan text-center text-[58px] leading-[1.08] uppercase tracking-[0.22em] text-[#7d0e1a]">
+                <h1 className="font-bo text-center text-[58px] leading-[1.08] uppercase tracking-[0.22em] text-[#7d0e1a]">
                   <span className="block">We Are</span>
                   <span className="block">UNLSH</span>
                   <span className="block">
@@ -378,7 +378,7 @@ const App = () => {
           <div className="flex items-center justify-center gap-6 px-6 text-[#7d0f16]">
             <div className="flex items-center gap-6 py-5">
               <span className="text-2xl sm:text-3xl">←</span>
-              <h2 className="font-iowan text-[48px] leading-none tracking-[0.22em] uppercase">
+              <h2 className="font-bo text-[48px] leading-none tracking-[0.22em] uppercase">
                 Our Values
               </h2>
               <span className="text-2xl sm:text-3xl">→</span>
@@ -398,7 +398,7 @@ const App = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/20 to-black/70" />
                 <div className="absolute inset-x-0 bottom-10 flex flex-col items-center gap-4 px-4 text-center text-white">
-                  <h4 className="font-iowan text-lg uppercase tracking-[0.55em]">
+                  <h4 className="font-bo text-lg uppercase tracking-[0.55em]">
                     {item.title}
                   </h4>
                   <span className="h-[6px] w-16 bg-[#c96a55]/90" />
@@ -495,7 +495,7 @@ const App = () => {
                 <p className="font-script text-8xl text-end max-w-[20vw] text-[#ff3944]">
                   What&apos;s On?
                 </p>
-                <h3 className="mt-2 font-iowan text-6xl uppercase tracking-[0.12em] text-[#f7e6d9]">
+                <h3 className="mt-2 font-bo text-6xl uppercase tracking-[0.12em] text-[#f7e6d9]">
                   UNLSH Society?
                 </h3>
               </div>
@@ -571,7 +571,7 @@ const App = () => {
                 {GALLERY_LAYOUT.map((image) => (
                   <figure
                     key={image.src}
-                    className={`group relative overflow-hidden rounded-[18px] border border-white/10 ${image.classes}`}
+                    className={`group relative overflow-hidden border border-white/10 ${image.classes}`}
                   >
                     <img
                       src={image.src}

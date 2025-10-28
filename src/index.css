@@ -9,6 +9,14 @@
 }
 
 @font-face {
+  font-family: "BodoniOldStyle";
+  src: url("./assets/bodoni-72-oldstyle-book.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "AvenirNext";
   src: url("./assets/Avenir.ttc") format("truetype");
   font-weight: 300 800;
@@ -36,6 +44,9 @@ body {
   font-family: "Iowan", "Times New Roman", serif;
 }
 
+.font-bo {
+  font-family: "BodoniOldStyle", "Didot", serif;
+}
 .font-avenir {
   font-family: "AvenirNext", "Helvetica Neue", Arial, sans-serif;
 }
@@ -46,8 +57,16 @@ body {
 }
 
 .pattern-us {
-  background-image: radial-gradient(circle at 8px 8px, rgba(255, 255, 255, 0.05) 2px, transparent 0),
-    radial-gradient(circle at 40px 40px, rgba(255, 255, 255, 0.04) 2px, transparent 0);
+  background-image: radial-gradient(
+      circle at 8px 8px,
+      rgba(255, 255, 255, 0.05) 2px,
+      transparent 0
+    ),
+    radial-gradient(
+      circle at 40px 40px,
+      rgba(255, 255, 255, 0.04) 2px,
+      transparent 0
+    );
   background-size: 48px 48px;
 }
 
