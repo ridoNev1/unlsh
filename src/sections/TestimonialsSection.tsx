@@ -13,14 +13,50 @@ import BlackArrowLeft from "../assets/black-arrow-left.svg";
 
 const TESTIMONIALS = [
   {
-    quote:
-      "I loved the way the hosts introduced every room, guided the themes, and checked in on how I was feeling. It felt like a friend's house, if that friend owned a nightclub.",
-    author: "Community Member, 2024",
+    quote: "i love the party 😘 thank you for the organized & safe party 🙏🏼",
+    author: "Community Member",
   },
   {
     quote:
-      "Everything was intentionally organized. I never felt rushed or pressured, and I appreciated the aftercare lounge. Lighting, food, soundscapes - every detail invited us deeper into pleasure.",
-    author: "Guest, Play Retreats",
+      "I loved the party and the community vibe, everything was really nicely organised, great job!! It felt like a big party in a friends house. I could see that you really care about it and about having safe and fun environment for people to play. I loved the space, food, themes of the rooms, lighting, introduction part and the people as well.",
+    author: "Guest",
+  },
+  {
+    quote: "It was an experience",
+    author: "Guest",
+  },
+  {
+    quote:
+      "Intro was a great way to get things started. People were all very friendly!",
+    author: "Guest",
+  },
+  {
+    quote:
+      "Overall a great experience. Everyone was very welcoming and I had a good time :)",
+    author: "Guest",
+  },
+  {
+    quote: "Very well thought & it was a very interesting sensory experience",
+    author: "Community Member",
+  },
+  {
+    quote:
+      "We both thought it was very professional and were impressed with everything from the organisation to the friendliness and care given by the angels. It was our first time so we were shy but its definitely opened a new world for us that we want to be a part of, so thank you all for this.",
+    author: "First-time Couple",
+  },
+  {
+    quote: "Everything was great, would love to come to your parties more!",
+    author: "Guest",
+  },
+  {
+    quote:
+      "A lot of thought was put into this and the experience was very exciting for us!",
+    author: "Guest",
+  },
+  {
+    quote:
+      "Congrats for the organization! 👏 That's something for 100 persons! 💪 I really loved your way of being super natural & open, the playfulness present...",
+    author: "Community Member",
   },
 ];
 
@@ -62,7 +98,7 @@ const TestimonialsSection = () => {
 
   return (
     <section className="bg-[#FAF1E6] py-24 text-[#33040a]">
-      <div className="mx-auto flex max-w-6xl flex-col gap-16 px-6 lg:flex-row lg:items-center">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-16 px-6 lg:grid-cols-2 lg:items-center">
         <div className="relative flex-1">
           <div>
             <img src={TestimoniTitle} alt="testi title" />

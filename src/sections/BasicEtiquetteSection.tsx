@@ -17,22 +17,60 @@ import BlackArrowLeft from "../assets/black-arrow-left.svg";
 
 const ETIQUETTE_SLIDES = [
   {
-    title: "No Photography & Phone Use",
+    title: "Dress Code Mandatory",
     description:
-      "Be present. Strictly no phones at our play party. During our events, no recordings or cameras are allowed. Only official photographers or designated booths are permitted unless stated otherwise.",
+      "Depending on the events you’re joining, participants are expected to follow the theme; no dress code = no entry.",
     image: EtiquetteLeft,
   },
   {
-    title: "Ask Before You Touch",
+    title: "No Photography",
     description:
-      "Consent is verbal, specific, and ongoing. Always check in before initiating any physical touch or scene, and respect every “not right now” without question.",
+      "During our events, no recordings/cameras are allowed. Only official photographers or designated booths are allowed. Unless it’s stated otherwise.",
     image: EtiquetteCenter,
   },
   {
-    title: "Honor Aftercare",
-    description:
-      "Support your partners once a scene concludes. Offer water, grounding touch, or quiet space, and let a host know if additional care is needed.",
+    title: "Minimize Phone Use",
+    description: "Be present. Strictly no phones at our Play Party.",
     image: EtiquetteRightImage,
+  },
+  {
+    title: "Ask Before Touching",
+    description: "Explicit consent is required every time. No exceptions.",
+    image: EtiquetteLeft,
+  },
+  {
+    title: "No Predatory Behavior",
+    description:
+      "Coercing someone to play = instant ban. No unwanted advances, staring, or discriminatory language.",
+    image: EtiquetteCenter,
+  },
+  {
+    title: "Zero Tolerance For Drugs",
+    description:
+      "Be present. We expect all participants to be sober and play consciously.",
+    image: EtiquetteRightImage,
+  },
+  {
+    title: "Respect Identities & Privacy",
+    description:
+      "Use correct pronouns; ask politely if unsure. All party information stays confidential.",
+    image: EtiquetteLeft,
+  },
+  {
+    title: "Do Not Interrupt Scenes",
+    description:
+      "Never involve yourself in a scene without permission. Negotiate everything. Presence ≠ availability.",
+    image: EtiquetteCenter,
+  },
+  {
+    title: "Report Issues Immediately",
+    description: "Find our Angels if you feel uncomfortable or unsafe.",
+    image: EtiquetteRightImage,
+  },
+  {
+    title: "Break Rules = Expelled",
+    description: "No refunds, no second chances. Bye.",
+    image: EtiquetteLeft,
   },
 ];
 
