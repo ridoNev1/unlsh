@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import type { UseEmblaCarouselType } from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 import {
@@ -73,7 +74,23 @@ const VALUE_HIGHLIGHTS = [
 ];
 
 const ValuesSection = () => {
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
+  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: false }));
+  const [api, setApi] = useState<UseEmblaCarouselType[1] | null>(null);
+
+  const handlePrev = () => {
+    plugin.current?.reset();
+    api?.scrollPrev();
+  };
+
+  const handleNext = () => {
+    plugin.current?.reset();
+    api?.scrollNext();
+  };
+
+  const handleJumpToValue = (index: number) => {
+    plugin.current?.reset();
+    api?.scrollTo(index + 1);
+  };
 
   return (
     <section id="values" className="beige-background text-[#2e0208]">
@@ -82,6 +99,7 @@ const ValuesSection = () => {
         className="w-screen"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
+        setApi={setApi}
       >
         <CarouselContent>
           <CarouselItem>
@@ -90,11 +108,8 @@ const ValuesSection = () => {
                 <img
                   src={RedArrowLeft}
                   alt="red-arrow-left"
-                  className="hidden sm:block"
-                  onClick={() => {
-                    // Todo :
-                    // this is prev carousel
-                  }}
+                  className="hidden sm:block cursor-pointer"
+                  onClick={handlePrev}
                 />
                 <img
                   src={OurValues}
@@ -104,11 +119,8 @@ const ValuesSection = () => {
                 <img
                   src={RedArrowRight}
                   alt="red-arrow-right"
-                  className="hidden sm:block"
-                  onClick={() => {
-                    // Todo :
-                    // this is next carousel
-                  }}
+                  className="hidden sm:block cursor-pointer"
+                  onClick={handleNext}
                 />
               </div>
             </div>
@@ -141,10 +153,7 @@ const ValuesSection = () => {
           <article
             key={item.title}
             className="group relative h-[400px] overflow-hidden cursor-pointer"
-            onClick={() => {
-              // Todo :
-              // this should jump the carousel into right spot. example : indx 0 = safe space content
-            }}
+            onClick={() => handleJumpToValue(indx)}
           >
             <img
               src={item.image}

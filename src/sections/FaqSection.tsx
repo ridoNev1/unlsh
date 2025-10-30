@@ -96,71 +96,69 @@ const FaqSection = () => {
 
   return (
     <section id="faq" className="bg-[#FF0000] py-24 text-black">
-      <Carousel
-        className="mx-auto max-w-6xl px-6"
-        opts={{ loop: true }}
-        setApi={setApi}
-        plugins={[autoplayPlugin.current]}
-        onMouseEnter={autoplayPlugin.current.stop}
-        onMouseLeave={autoplayPlugin.current.reset}
-      >
-        <CarouselContent className="-ml-0">
-          {FAQS.map((faq, index) => (
-            <CarouselItem key={faq.question} className="!pl-0">
-              <div className="grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-16 lg:items-center">
-                <div className="flex flex-1 flex-col gap-8">
-                  <div>
-                    <img
-                      src={FaqTitle}
-                      alt="faq title"
-                      className="max-w-[60%]"
-                    />
-                  </div>
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid grid-cols-1 gap-16 sm:grid-cols-[2fr_1fr] lg:items-center">
+          <div className="flex flex-1 flex-col gap-8">
+            <div>
+              <img src={FaqTitle} alt="faq title" className="max-w-[60%]" />
+            </div>
 
-                  <div>
-                    <p className="font-avenir text-xl uppercase">
-                      {faq.question}
-                    </p>
-                    <p className="mt-6 max-w-xl text-sm leading-relaxed">
-                      {faq.answer}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-1 flex-col items-center gap-6">
-                  <div className="w-56 h-80">
-                    <img
-                      src={FAQ_IMAGES[index % FAQ_IMAGES.length]}
-                      alt={faq.question}
-                      className="h-full w-full object-cover saturate-0"
-                    />
-                  </div>
-                  <div className="mt-14 flex items-center justify-center gap-12 text-xs font-condor uppercase">
-                    <button
-                      type="button"
-                      onClick={goPrev}
-                      className="flex items-center gap-2 transition"
-                      aria-label="Show previous testimonial"
-                    >
-                      <img src={BlackArrowLeft} alt="black-arrow-left" />
-                    </button>
-                    <span className="text-2xl">
-                      {formatStepper(current, FAQS.length)}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={goNext}
-                      className="flex items-center gap-2 transition"
-                      aria-label="Show next testimonial"
-                    >
-                      <img src={BlackArrowRight} alt="black-arrow-right" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+            <Carousel
+              className="max-w-xl"
+              opts={{ loop: true }}
+              setApi={setApi}
+              plugins={[autoplayPlugin.current]}
+              onMouseEnter={autoplayPlugin.current.stop}
+              onMouseLeave={autoplayPlugin.current.reset}
+            >
+              <CarouselContent>
+                {FAQS.map((faq) => (
+                  <CarouselItem key={faq.question}>
+                    <div>
+                      <p className="font-avenir text-xl uppercase">
+                        {faq.question}
+                      </p>
+                      <p className="mt-6 max-w-xl text-sm leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
+          <div className="flex flex-1 flex-col items-center gap-6">
+            <div className="h-80 w-56">
+              <img
+                src={FAQ_IMAGES[current % FAQ_IMAGES.length]}
+                alt={FAQS[current].question}
+                className="h-full w-full object-cover saturate-0"
+              />
+            </div>
+            <div className="mt-6 flex items-center gap-12 text-xs font-condor uppercase">
+              <button
+                type="button"
+                onClick={goPrev}
+                className="flex items-center gap-2 transition"
+                aria-label="Show previous testimonial"
+              >
+                <img src={BlackArrowLeft} alt="black-arrow-left" />
+              </button>
+              <span className="text-2xl">
+                {formatStepper(current, FAQS.length)}
+              </span>
+              <button
+                type="button"
+                onClick={goNext}
+                className="flex items-center gap-2 transition"
+                aria-label="Show next testimonial"
+              >
+                <img src={BlackArrowRight} alt="black-arrow-right" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

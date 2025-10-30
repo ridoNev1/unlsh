@@ -1,3 +1,14 @@
+import { useEffect, useState } from "react";
+import type { UseEmblaCarouselType } from "embla-carousel-react";
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../components/ui/carousel";
+import { Dialog, DialogContent } from "../components/ui/dialog";
 import importantBg from "../assets/important-bg.png";
 import galleryLargeB from "../assets/gallery-large-2.jpg";
 import galleryWide from "../assets/gallery-wide-1.jpg";
@@ -143,6 +154,23 @@ const GALLERY_LAYOUT = [
 ];
 
 const WhoSection = () => {
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [galleryApi, setGalleryApi] = useState<UseEmblaCarouselType[1] | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (isGalleryOpen && galleryApi) {
+      galleryApi.scrollTo(selectedImage);
+    }
+  }, [isGalleryOpen, galleryApi, selectedImage]);
+
+  const openGallery = (index: number) => {
+    setSelectedImage(index);
+    setIsGalleryOpen(true);
+  };
+
   return (
     <section
       id="who"
@@ -226,25 +254,61 @@ const WhoSection = () => {
           </div>
         </div>
 
-        <div id="gallery" className="mx-auto max-w-6xl px-6 pb-24 pt-10">
-          <div className="mt-12 flex flex-col sm:grid sm:grid-cols-6 auto-rows-[160px] gap-4 md:auto-rows-[200px] lg:auto-rows-[240px]">
-            {GALLERY_LAYOUT.map((image) => (
-              <figure
-                key={image.src}
-                className={`group relative overflow-hidden border border-white/10 ${image.classes}`}
-              >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-                <figcaption className="absolute inset-0 flex items-end bg-gradient-to-t from-black/80 via-transparent to-transparent p-4 text-[10px] uppercase tracking-[0.4em] text-white/70 opacity-0 transition group-hover:opacity-100">
-                  {image.alt}
-                </figcaption>
-              </figure>
-            ))}
+        <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
+          <div
+            id="gallery"
+            className="mx-auto w-full max-w-6xl px-6 pb-24 pt-10"
+          >
+            <div className="mt-12 flex flex-col sm:grid sm:grid-cols-6 auto-rows-[160px] gap-4 md:auto-rows-[200px] lg:auto-rows-[240px]">
+              {GALLERY_LAYOUT.map((image, index) => (
+                <figure
+                  key={image.src}
+                  className={`group relative overflow-hidden border border-white/10 cursor-pointer ${image.classes}`}
+                  onClick={() => openGallery(index)}
+                >
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                  <figcaption className="absolute inset-0 flex items-end bg-gradient-to-t from-black/80 via-transparent to-transparent p-4 text-[10px] uppercase tracking-[0.4em] text-white/70 opacity-0 transition group-hover:opacity-100">
+                    {image.alt}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
-        </div>
+
+          <DialogContent className="!w-[80vw] !max-w-none !sm:h-[90vh] border border-white/20 bg-black/90 p-4 sm:p-8 text-white flex flex-col overflow-hidden">
+            <Carousel
+              opts={{ loop: true, startIndex: selectedImage }}
+              setApi={setGalleryApi}
+              className="relative flex-1"
+            >
+              <CarouselContent className="-ml-2 sm:-ml-4 h-full">
+                {GALLERY_LAYOUT.map((image) => (
+                  <CarouselItem
+                    key={image.src}
+                    className="flex h-full flex-col items-center justify-center overflow-hidden pl-2 sm:pl-4"
+                  >
+                    <div className="flex h-full w-full max-w-[82vw] lg:max-w-[1000px] flex-col items-center justify-center gap-6">
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className="mx-auto h-auto max-h-[calc(90vh-140px)] w-auto max-w-full object-contain"
+                      />
+                      <p className="text-center text-xs uppercase tracking-[0.35em] text-white/70">
+                        {image.alt}
+                      </p>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-0 border border-white/30 bg-black/40 text-white hover:bg-black/60" />
+              <CarouselNext className="right-0 border border-white/30 bg-black/40 text-white hover:bg-black/60" />
+            </Carousel>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
