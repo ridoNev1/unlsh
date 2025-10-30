@@ -166,7 +166,7 @@ const WhoSection = () => {
                 key={item.title}
                 className="border border-white/15 bg-black/35 px-6 py-8 shadow-lg backdrop-blur"
               >
-                <h4 className="font-iowan text-lg uppercase tracking-[0.45em] text-[#ff3f43]">
+                <h4 className="mt-4 font-iowan text-2xl text-[#ff3944]">
                   {item.title}
                 </h4>
                 <div className="mt-3 h-[5px] w-full bg-[#ff3f43]" />

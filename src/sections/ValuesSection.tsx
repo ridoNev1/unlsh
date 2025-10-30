@@ -46,6 +46,22 @@ const VALUE_CAROUSEL_ITEMS = [
     accentClasses: "bg-[#7b1218]/60",
     descriptionClasses: "text-[#7b1218]/80",
   },
+  {
+    title: "Authenticity",
+    description:
+      "Real people, real body, real vibe. No paid participants, no masks, no pretense—just genuine human beings. We encourage self-discovery, honesty, and vulnerability. Your true self is welcome here, without societal expectations or pressure to conform. Everyone is fully engrossed and actively contributing to the experience.",
+    wrapperClasses: "bg-[#050505] text-[#f4f1ee]",
+    accentClasses: "bg-[#f4f1ee]/70",
+    descriptionClasses: "text-[#f4f1ee]/80",
+  },
+  {
+    title: "Freedom",
+    description:
+      "We celebrate sexual liberation in all its forms (as long as it’s consensual and ethical). Whether you’re curious, experienced, or somewhere in between, you have the right to explore your desires without oppression or stigma. We believe our bodies are vessels for pleasure, learning, and growth, deserving of love, respect, and care. ",
+    wrapperClasses: "bg-[#e11019] text-[#fde9df]",
+    accentClasses: "bg-[#fde9df]/80",
+    descriptionClasses: "text-[#fde9df]/85",
+  },
 ];
 
 const VALUE_HIGHLIGHTS = [
@@ -75,6 +91,10 @@ const ValuesSection = () => {
                   src={RedArrowLeft}
                   alt="red-arrow-left"
                   className="hidden sm:block"
+                  onClick={() => {
+                    // Todo :
+                    // this is prev carousel
+                  }}
                 />
                 <img
                   src={OurValues}
@@ -85,6 +105,10 @@ const ValuesSection = () => {
                   src={RedArrowRight}
                   alt="red-arrow-right"
                   className="hidden sm:block"
+                  onClick={() => {
+                    // Todo :
+                    // this is next carousel
+                  }}
                 />
               </div>
             </div>
@@ -113,10 +137,14 @@ const ValuesSection = () => {
       </Carousel>
 
       <div className=" grid grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-5">
-        {VALUE_HIGHLIGHTS.map((item) => (
+        {VALUE_HIGHLIGHTS.map((item, indx) => (
           <article
             key={item.title}
-            className="group relative h-[400px] overflow-hidden"
+            className="group relative h-[400px] overflow-hidden cursor-pointer"
+            onClick={() => {
+              // Todo :
+              // this should jump the carousel into right spot. example : indx 0 = safe space content
+            }}
           >
             <img
               src={item.image}
