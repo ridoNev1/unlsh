@@ -74,7 +74,7 @@ const VALUE_HIGHLIGHTS = [
 ];
 
 const ValuesSection = () => {
-  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: false }));
+  const plugin = useRef(Autoplay({ delay: 10000, stopOnInteraction: false }));
   const [api, setApi] = useState<UseEmblaCarouselType[1] | null>(null);
 
   const handlePrev = () => {

@@ -1,30 +1,39 @@
-import Header from "./sections/Header";
-import HeroSection from "./sections/HeroSection";
-import KeywordsStrip from "./sections/KeywordsStrip";
-import RevolutionSection from "./sections/RevolutionSection";
-import ValuesSection from "./sections/ValuesSection";
-import BasicEtiquetteSection from "./sections/BasicEtiquetteSection";
-import WhoSection from "./sections/WhoSection";
-import TestimonialsSection from "./sections/TestimonialsSection";
-import FaqSection from "./sections/FaqSection";
-import Footer from "./sections/Footer";
+import { useEffect } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+
+import HomePage from "./pages/HomePage";
+import UpcomingEventsPage from "./pages/UpcomingEventsPage";
+
+const ScrollToHash = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const target = document.getElementById(id);
+      if (target) {
+        requestAnimationFrame(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [location.pathname, location.hash]);
+
+  return null;
+};
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-[#120104] font-avenir text-white">
-      <Header />
-      <main>
-        <HeroSection />
-        <KeywordsStrip />
-        <RevolutionSection />
-        <ValuesSection />
-        <BasicEtiquetteSection />
-        <WhoSection />
-        <TestimonialsSection />
-        <FaqSection />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <ScrollToHash />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/upcoming-events" element={<UpcomingEventsPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 };
 
