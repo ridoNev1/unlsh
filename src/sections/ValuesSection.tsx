@@ -1,6 +1,5 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import type { UseEmblaCarouselType } from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 
 import {
   Carousel,
@@ -74,33 +73,23 @@ const VALUE_HIGHLIGHTS = [
 ];
 
 const ValuesSection = () => {
-  const plugin = useRef(Autoplay({ delay: 10000, stopOnInteraction: false }));
   const [api, setApi] = useState<UseEmblaCarouselType[1] | null>(null);
 
   const handlePrev = () => {
-    plugin.current?.reset();
     api?.scrollPrev();
   };
 
   const handleNext = () => {
-    plugin.current?.reset();
     api?.scrollNext();
   };
 
   const handleJumpToValue = (index: number) => {
-    plugin.current?.reset();
     api?.scrollTo(index + 1);
   };
 
   return (
     <section id="values" className="beige-background text-[#2e0208]">
-      <Carousel
-        plugins={[plugin.current]}
-        className="w-screen"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-        setApi={setApi}
-      >
+      <Carousel className="w-screen" setApi={setApi}>
         <CarouselContent>
           <CarouselItem>
             <div className="flex items-center h-[260px] sm:h-[94px] justify-center gap-6 px-6 text-[#7d0f16]">
@@ -168,7 +157,7 @@ const ValuesSection = () => {
         ))}
       </div>
 
-      <div className="mx-auto py-4 font-iowan text-xl w-full px-8 font-iow text-center uppercase text-[#5b131f] tracking-[0.2em]">
+      <div className="mx-auto py-4 font-iowan text-xl w-full px-8 font-iow text-center uppercase text-[#88181a] tracking-[0.2em]">
         We create safe spaces to explore desire, embrace authenticity, and build
         connections.
       </div>
