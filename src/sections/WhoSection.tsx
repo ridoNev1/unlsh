@@ -146,7 +146,7 @@ const WhoSection = () => {
   return (
     <section
       id="who"
-      className="bg-cover bg-center text-white min-h-[2200px]"
+      className="bg-contain bg-no-repeat sm:bg-cover sm:bg-center text-white min-h-[2200px]"
       style={{ backgroundImage: `url(${importantBg})` }}
     >
       <div>

@@ -126,6 +126,27 @@ const FaqSection = () => {
                 ))}
               </CarouselContent>
             </Carousel>
+            <div className="sm:hidden mt-6 flex items-center gap-12 text-xs font-condor uppercase">
+              <button
+                type="button"
+                onClick={goPrev}
+                className="flex items-center gap-2 transition"
+                aria-label="Show previous testimonial"
+              >
+                <img src={BlackArrowLeft} alt="black-arrow-left" />
+              </button>
+              <span className="text-2xl">
+                {formatStepper(current, FAQS.length)}
+              </span>
+              <button
+                type="button"
+                onClick={goNext}
+                className="flex items-center gap-2 transition"
+                aria-label="Show next testimonial"
+              >
+                <img src={BlackArrowRight} alt="black-arrow-right" />
+              </button>
+            </div>
           </div>
           <div className="flex flex-1 flex-col items-center gap-6">
             <div className="h-80 w-56">
@@ -135,7 +156,7 @@ const FaqSection = () => {
                 className="h-full w-full object-cover saturate-0"
               />
             </div>
-            <div className="mt-6 flex items-center gap-12 text-xs font-condor uppercase">
+            <div className="hidden mt-6 sm:flex items-center gap-12 text-xs font-condor uppercase">
               <button
                 type="button"
                 onClick={goPrev}
