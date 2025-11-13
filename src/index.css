@@ -326,3 +326,9 @@ body {
   opacity: 0.6;
   z-index: -1;
 }
+
+@media (max-width: 768px) {
+  .who-section-bg::before {
+    background-size: contain;
+  }
+}

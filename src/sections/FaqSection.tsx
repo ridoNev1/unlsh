@@ -71,7 +71,7 @@ const FaqSection = () => {
                 <AccordionTrigger className="text-left text-lg font-semibold text-black">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-base leading-relaxed text-black/80">
+                <AccordionContent className="text-base font-medium leading-relaxed text-black/80">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
