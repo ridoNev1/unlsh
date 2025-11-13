@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import UpcomingEventsPage from "./pages/UpcomingEventsPage";
+import FormPage from "./pages/FormPage";
 
 const ScrollToHash = () => {
   const location = useLocation();
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/upcoming-events" element={<UpcomingEventsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/contact" element={<FormPage />} />
       </Routes>
     </>
   );

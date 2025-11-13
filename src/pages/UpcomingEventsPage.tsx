@@ -62,12 +62,12 @@ const UpcomingEventsPage = () => {
                   >
                     Back To Experiences
                   </Link>
-                  <a
-                    href="mailto:rsvp@unlsh.society"
+                  <Link
+                    to="/contact"
                     className="border border-transparent bg-[#fde9df] px-8 py-3 text-[#150005] transition hover:bg-white"
                   >
                     Request Invite
-                  </a>
+                  </Link>
                 </div>
                 <p className="mt-8 max-w-xl text-sm text-[#fde9df]/60">
                   Members receive curated recommendations, dress code briefings, and staggered RSVP
@@ -108,18 +108,12 @@ const UpcomingEventsPage = () => {
                         ))}
                       </ul>
                     ) : null}
-                    <a
-                      href={
-                        featuredEvent
-                          ? `mailto:rsvp@unlsh.society?subject=${encodeURIComponent(
-                              `RSVP - ${featuredEvent.title}`,
-                            )}`
-                          : "mailto:rsvp@unlsh.society"
-                      }
+                    <Link
+                      to="/contact"
                       className="mt-8 inline-flex w-fit items-center gap-3 rounded-full border border-[#ff6f61]/50 px-6 py-3 text-[11px] uppercase tracking-[0.4em] text-[#ff9a8e] transition hover:border-[#fde9df] hover:text-[#fde9df]"
                     >
                       Request RSVP Window
-                    </a>
+                    </Link>
                   </div>
                 </article>
               )}
@@ -175,12 +169,12 @@ const UpcomingEventsPage = () => {
                             </span>
                           ) : null}
                         </div>
-                        <a
-                          href="mailto:rsvp@unlsh.society"
+                        <Link
+                          to="/contact"
                           className="inline-flex items-center justify-center rounded-full border border-[#bb7560] px-6 py-3 text-[11px] uppercase tracking-[0.35em] text-[#7d0f16] transition hover:bg-[#bb7560] hover:text-white"
                         >
                           Join Waitlist
-                        </a>
+                        </Link>
                       </header>
                       <p className="text-sm leading-relaxed text-[#3a0c12]">
                         {event.description}
@@ -253,12 +247,12 @@ const UpcomingEventsPage = () => {
             </div>
 
             <div className="mt-12 flex flex-wrap justify-center gap-4 text-xs uppercase tracking-[0.4em]">
-              <a
-                href="mailto:rsvp@unlsh.society"
+              <Link
+                to="/contact"
                 className="border border-transparent bg-[#fde9df] px-8 py-3 text-[#150005] transition hover:bg-white"
               >
                 Request Invite
-              </a>
+              </Link>
               <Link
                 to="/#events"
                 className="border border-[#fde9df]/60 px-8 py-3 text-[#fde9df] transition hover:border-transparent hover:bg-[#fde9df] hover:text-[#150005]"

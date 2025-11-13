@@ -10,7 +10,6 @@ import {
 } from "../components/ui/carousel";
 import { Dialog, DialogContent } from "../components/ui/dialog";
 import { OFFERINGS } from "../data/events";
-import importantBg from "../assets/important-bg.png";
 import galleryLargeB from "../assets/gallery-large-2.jpg";
 import galleryWide from "../assets/gallery-wide-1.jpg";
 import CtaPlay from "../assets/cta-play.jpg";
@@ -22,6 +21,8 @@ import galleryLargeA from "../assets/gallery-large-1.jpg";
 import valuesFreedom from "../assets/value-freedom.jpg";
 import valuesConsent from "../assets/value-consent.jpg";
 import EtiquetteCenter from "../assets/etiquette-center.jpg";
+import WhatsOn from "../assets/whats-on-text.svg";
+import UNLSHSocietyText from "../assets/UNLSH_society-text.svg";
 
 const SOCIETY_HIGHLIGHTS = [
   {
@@ -146,31 +147,23 @@ const WhoSection = () => {
   return (
     <section
       id="who"
-      className="bg-contain bg-no-repeat sm:bg-cover sm:bg-center text-white min-h-[2200px]"
-      style={{ backgroundImage: `url(${importantBg})` }}
+      className="who-section-bg bg-contain bg-no-repeat sm:bg-cover sm:bg-center text-white min-h-[2200px]"
     >
       <div>
         <div className="mx-auto max-w-6xl px-6 pt-24">
-          <div className="py-12 grid sm:flex sm:gap-24 items-center">
-            <p className="font-script text-8xl text-end max-w-[20vw] text-[#ff3944]">
-              What&apos;s On?
-            </p>
-            <h3 className="mt-2 font-bo text-6xl uppercase tracking-[0.12em] text-[#f7e6d9]">
-              UNLSH Society?
-            </h3>
+          <div className="py-12 justify-center grid sm:flex items-center">
+            <img src={WhatsOn} alt="whatsontext" />
+            <img src={UNLSHSocietyText} alt="UNLSHSociety" />
           </div>
 
           <div className="mt-12 grid gap-10 lg:grid-cols-3">
             {SOCIETY_HIGHLIGHTS.map((item) => (
-              <article
-                key={item.title}
-                className="border border-white/15 bg-black/35 px-6 py-8 shadow-lg backdrop-blur"
-              >
+              <article key={item.title} className="px-6 py-8">
                 <h4 className="mt-4 font-iowan text-2xl text-[#ff3944]">
                   {item.title}
                 </h4>
                 <div className="mt-3 h-[5px] w-full bg-[#ff3f43]" />
-                <p className="mt-6 text-sm text-justify leading-relaxed text-white/80">
+                <p className="mt-6 text-justify leading-relaxed text-white/80">
                   {item.description}
                 </p>
               </article>
@@ -181,15 +174,12 @@ const WhoSection = () => {
         <div id="events" className="mx-auto max-w-6xl px-6 pt-16">
           <div className="grid gap-10 lg:grid-cols-2">
             {OFFERINGS.map((item) => (
-              <article
-                key={item.title}
-                className="flex flex-col border border-white/15 bg-black/40 px-10 py-10 shadow-lg"
-              >
+              <article key={item.title} className="flex flex-col px-10 py-10">
                 <h4 className="mt-4 font-iowan text-3xl text-[#ff3944]">
                   {item.title}
                 </h4>
                 <div className="mt-3 h-[5px] w-full bg-[#ff3f43]" />
-                <p className="mt-6 flex-1 text-justify text-sm leading-relaxed text-white/85">
+                <p className="mt-6 flex-1 text-justify leading-relaxed text-white/85">
                   {item.blurb}
                 </p>
                 <a
