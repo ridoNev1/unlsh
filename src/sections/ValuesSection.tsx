@@ -1,11 +1,4 @@
-import { useState } from "react";
-import type { UseEmblaCarouselType } from "embla-carousel-react";
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "../components/ui/carousel";
+import { useMemo } from "react";
 
 import OurValues from "../assets/our_values.svg";
 import RedArrowLeft from "../assets/red-arrow-left.svg";
@@ -65,93 +58,74 @@ const VALUE_CAROUSEL_ITEMS = [
 ];
 
 const VALUE_HIGHLIGHTS = [
-  { title: SafeSpaceText, image: gallery5 },
-  { title: ConnectionText, image: gallery4 },
-  { title: ConsentText, image: gallery8 },
-  { title: AuthenticityText, image: valuesAuthenticity },
-  { title: FreedomText, image: gallery3 },
+  { labelSrc: SafeSpaceText, image: gallery5 },
+  { labelSrc: ConnectionText, image: gallery4 },
+  { labelSrc: ConsentText, image: gallery8 },
+  { labelSrc: AuthenticityText, image: valuesAuthenticity },
+  { labelSrc: FreedomText, image: gallery3 },
 ];
 
 const ValuesSection = () => {
-  const [api, setApi] = useState<UseEmblaCarouselType[1] | null>(null);
-
-  const handlePrev = () => {
-    api?.scrollPrev();
-  };
-
-  const handleNext = () => {
-    api?.scrollNext();
-  };
-
-  const handleJumpToValue = (index: number) => {
-    api?.scrollTo(index + 1);
-  };
+  const valueCards = useMemo(() => {
+    return VALUE_HIGHLIGHTS.map((highlight, index) => ({
+      ...VALUE_CAROUSEL_ITEMS[index],
+      image: highlight.image,
+      labelSrc: highlight.labelSrc,
+    }));
+  }, []);
 
   return (
     <section id="values" className="beige-background text-[#2e0208]">
-      <Carousel className="w-screen" setApi={setApi}>
-        <CarouselContent>
-          <CarouselItem>
-            <div className="flex items-center h-[260px] sm:h-[94px] justify-center gap-6 px-6 text-[#7d0f16]">
-              <div className="flex items-center gap-6 py-5">
+      <div className="flex items-center h-[260px] sm:h-[94px] justify-center gap-6 px-6 text-[#7d0f16]">
+        <div className="flex items-center gap-6 py-5">
+          <img
+            src={RedArrowLeft}
+            alt="red-arrow-left"
+            className="hidden sm:block cursor-pointer"
+          />
+          <img
+            src={OurValues}
+            alt="Our-values"
+            className="w-full sm:w-[15vw]"
+          />
+          <img
+            src={RedArrowRight}
+            alt="red-arrow-right"
+            className="hidden sm:block cursor-pointer"
+          />
+        </div>
+      </div>
+
+      <div
+        className=" grid grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-5"
+        id="card-control-carousel"
+      >
+        {valueCards.map((item) => (
+          <article
+            key={item.title}
+            className="group relative h-[400px] cursor-pointer [perspective:1200px]"
+          >
+            <div className="relative h-full w-full transition duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+              <div className="absolute inset-0 overflow-hidden [backface-visibility:hidden]">
                 <img
-                  src={RedArrowLeft}
-                  alt="red-arrow-left"
-                  className="hidden sm:block cursor-pointer"
-                  onClick={handlePrev}
+                  src={item.image}
+                  alt={item.title}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
-                <img
-                  src={OurValues}
-                  alt="Our-values"
-                  className="w-full sm:w-[15vw]"
-                />
-                <img
-                  src={RedArrowRight}
-                  alt="red-arrow-right"
-                  className="hidden sm:block cursor-pointer"
-                  onClick={handleNext}
-                />
-              </div>
-            </div>
-          </CarouselItem>
-          {VALUE_CAROUSEL_ITEMS.map((item) => (
-            <CarouselItem key={item.title}>
-              <div
-                className={`flex h-[260px] sm:h-[94px] w-full flex-col justify-center gap-8 px-8 sm:flex-row sm:items-center sm:gap-16 sm:px-16 ${item.wrapperClasses}`}
-              >
-                <div className="flex w-full flex-col gap-4 uppercase sm:w-[10%]">
-                  <span className="font-avenir text-lg">{item.title}</span>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/20 to-black/70" />
+                <div className="absolute inset-x-0 bottom-0 flex min-h-full flex-col items-center justify-center gap-4 px-4 text-center text-white">
+                  <img src={item.labelSrc} alt="value-title" />
                 </div>
-                <span
-                  className={`hidden h-20 w-px origin-center rotate-45 sm:block ${item.accentClasses}`}
-                  aria-hidden="true"
-                />
-                <p
-                  className={`w-full text-xs leading-relaxed sm:w-4/5 md:w-4/5 ${item.descriptionClasses}`}
-                >
+              </div>
+              <div
+                className={`absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center text-sm leading-relaxed [backface-visibility:hidden] [transform:rotateY(180deg)] ${item.wrapperClasses}`}
+              >
+                <span className="font-avenir text-lg uppercase">{item.title}</span>
+                <span className={`h-12 w-px ${item.accentClasses}`} aria-hidden="true" />
+                <p className={`text-xs sm:text-sm ${item.descriptionClasses}`}>
                   {item.description}
                 </p>
               </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-
-      <div className=" grid grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-5">
-        {VALUE_HIGHLIGHTS.map((item, indx) => (
-          <article
-            key={item.title}
-            className="group relative h-[400px] overflow-hidden cursor-pointer"
-            onClick={() => handleJumpToValue(indx)}
-          >
-            <img
-              src={item.image}
-              alt={item.title}
-              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/20 to-black/70" />
-            <div className="absolute min-h-full inset-x-0 bottom-0 flex flex-col items-center justify-center gap-4 px-4 text-center text-white">
-              <img src={item.title} alt="images-that-really-matter" />
             </div>
           </article>
         ))}

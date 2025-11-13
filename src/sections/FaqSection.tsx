@@ -1,18 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import type { UseEmblaCarouselType } from "embla-carousel-react";
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "../components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import FaqTitle from "../assets/faq-title.png";
-import gallery1 from "../assets/gallery-1.jpg";
-import gallery3 from "../assets/gallery-3.jpg";
-import gallery7 from "../assets/gallery-7.jpg";
-import BlackArrowRight from "../assets/black-arrow-right.svg";
-import BlackArrowLeft from "../assets/black-arrow-left.svg";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const FAQS = [
   {
@@ -58,126 +50,33 @@ const FAQS = [
   },
 ];
 
-const FAQ_IMAGES = [gallery1, gallery3, gallery7];
-
-const formatStepper = (index: number, total: number) =>
-  `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
-
 const FaqSection = () => {
-  const [api, setApi] = useState<UseEmblaCarouselType[1] | null>(null);
-  const [current, setCurrent] = useState(0);
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 4500, stopOnInteraction: false })
-  );
-
-  useEffect(() => {
-    if (!api) return;
-
-    const handleSelect = () => setCurrent(api.selectedScrollSnap());
-    handleSelect();
-
-    api.on("select", handleSelect);
-    api.on("reInit", handleSelect);
-
-    return () => {
-      api.off("select", handleSelect);
-      api.off("reInit", handleSelect);
-    };
-  }, [api]);
-
-  const goPrev = () => {
-    autoplayPlugin.current?.reset();
-    api?.scrollPrev();
-  };
-  const goNext = () => {
-    autoplayPlugin.current?.reset();
-    api?.scrollNext();
-  };
-
   return (
-    <section id="faq" className="bg-[#FF0000] py-24 text-black">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="grid grid-cols-1 gap-16 sm:grid-cols-[2fr_1fr] lg:items-center">
-          <div className="flex flex-1 flex-col gap-8">
-            <div>
-              <img src={FaqTitle} alt="faq title" className="max-w-[60%]" />
-            </div>
-
-            <Carousel
-              className="max-w-xl"
-              opts={{ loop: true }}
-              setApi={setApi}
-              plugins={[autoplayPlugin.current]}
-              onMouseEnter={autoplayPlugin.current.stop}
-              onMouseLeave={autoplayPlugin.current.reset}
-            >
-              <CarouselContent>
-                {FAQS.map((faq) => (
-                  <CarouselItem key={faq.question}>
-                    <div>
-                      <p className="font-avenir text-xl uppercase">
-                        {faq.question}
-                      </p>
-                      <p className="mt-6 max-w-xl text-sm leading-relaxed">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-            <div className="sm:hidden mt-6 flex items-center gap-12 text-xs font-condor uppercase">
-              <button
-                type="button"
-                onClick={goPrev}
-                className="flex items-center gap-2 transition"
-                aria-label="Show previous testimonial"
+    <section
+      id="faq"
+      className="bg-[#FF0000] px-6 py-16 text-[#fde9df] md:px-12 md:py-24"
+    >
+      <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[1fr_1fr] lg:items-center">
+        <div className="relative flex flex-col items-center gap-6 text-center text-[#fde9df]">
+          <img src={FaqTitle} alt="faq-title" className="w-full" />
+        </div>
+        <div>
+          <Accordion type="single" collapsible className="space-y-4">
+            {FAQS.map((faq, index) => (
+              <AccordionItem
+                key={faq.question}
+                value={`faq-${index}`}
+                className="rounded-2xl border border-black/20 bg-white/1 px-4 text-left text-[#fde9df]"
               >
-                <img src={BlackArrowLeft} alt="black-arrow-left" />
-              </button>
-              <span className="text-2xl">
-                {formatStepper(current, FAQS.length)}
-              </span>
-              <button
-                type="button"
-                onClick={goNext}
-                className="flex items-center gap-2 transition"
-                aria-label="Show next testimonial"
-              >
-                <img src={BlackArrowRight} alt="black-arrow-right" />
-              </button>
-            </div>
-          </div>
-          <div className="flex flex-1 flex-col items-center gap-6">
-            <div className="h-80 w-56">
-              <img
-                src={FAQ_IMAGES[current % FAQ_IMAGES.length]}
-                alt={FAQS[current].question}
-                className="h-full w-full object-cover saturate-0"
-              />
-            </div>
-            <div className="hidden mt-6 sm:flex items-center gap-12 text-xs font-condor uppercase">
-              <button
-                type="button"
-                onClick={goPrev}
-                className="flex items-center gap-2 transition"
-                aria-label="Show previous testimonial"
-              >
-                <img src={BlackArrowLeft} alt="black-arrow-left" />
-              </button>
-              <span className="text-2xl">
-                {formatStepper(current, FAQS.length)}
-              </span>
-              <button
-                type="button"
-                onClick={goNext}
-                className="flex items-center gap-2 transition"
-                aria-label="Show next testimonial"
-              >
-                <img src={BlackArrowRight} alt="black-arrow-right" />
-              </button>
-            </div>
-          </div>
+                <AccordionTrigger className="text-left text-lg font-semibold text-black">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-base leading-relaxed text-black/80">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </div>
     </section>

@@ -1,11 +1,11 @@
+import UnlshLogo from "../assets/unlsh-logo.svg";
+
 const Footer = () => {
   return (
     <footer className="border-t border-white/10 bg-[#150005] py-12 text-sm text-white/70">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-sm">
-          <p className="font-iowan text-lg uppercase tracking-[0.5em] text-white">
-            UNLSH
-          </p>
+          <img src={UnlshLogo} className="cursor-pointer" alt="unlshlogo" />
           <p className="mt-4 text-xs leading-relaxed text-white/60">
             Sensual salons, immersive retreats, and community-led play
             experiences in New York and beyond. We gather dreamers who honor
