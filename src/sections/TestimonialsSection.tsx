@@ -10,6 +10,8 @@ import Autoplay from "embla-carousel-autoplay";
 import TestimoniTitle from "../assets/Testimoni-title.png";
 import BlackArrowRight from "../assets/black-arrow-right.svg";
 import BlackArrowLeft from "../assets/black-arrow-left.svg";
+import { useAdminContentStore } from "@/sections/admin/content-store";
+import SanitizedHTML from "@/components/SanitizedHTML";
 
 const TESTIMONIALS = [
   {
@@ -69,6 +71,10 @@ const TestimonialsSection = () => {
   const autoplayPlugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false })
   );
+  const testimonialEntries = useAdminContentStore(
+    (state) => state.collections.testimonials
+  );
+  const items = testimonialEntries.length ? testimonialEntries : TESTIMONIALS;
 
   useEffect(() => {
     if (!api) return;
@@ -113,12 +119,14 @@ const TestimonialsSection = () => {
           onMouseLeave={autoplayPlugin.current.reset}
         >
           <CarouselContent>
-            {TESTIMONIALS.map((item) => (
-              <CarouselItem key={item.quote}>
+            {items.map((item) => (
+              <CarouselItem key={`${item.quote}-${item.author}`}>
                 <div className="flex h-full flex-col">
-                  <p className="font-iowan text-lg leading-relaxed">
-                    "{item.quote}"
-                  </p>
+                  <SanitizedHTML
+                    as="div"
+                    className="font-iowan text-lg leading-relaxed"
+                    html={item.quote || ""}
+                  />
                   <p className="mt-6 text-[11px] uppercase tracking-[0.45em] ">
                     - {item.author}
                   </p>
@@ -137,7 +145,7 @@ const TestimonialsSection = () => {
               <img src={BlackArrowLeft} alt="black-arrow-left" />
             </button>
             <span className="text-2xl">
-              {formatStepper(current, TESTIMONIALS.length)}
+              {formatStepper(current, items.length)}
             </span>
             <button
               type="button"

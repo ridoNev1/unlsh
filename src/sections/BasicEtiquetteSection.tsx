@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { UseEmblaCarouselType } from "embla-carousel-react";
 
 import {
@@ -14,6 +14,8 @@ import EtiquetteCenter from "../assets/etiquette-center.jpg";
 import EtiquetteRightImage from "../assets/etiquette-right.jpg";
 import BlackArrowRight from "../assets/black-arrow-right.svg";
 import BlackArrowLeft from "../assets/black-arrow-left.svg";
+import { useAdminContentStore } from "@/sections/admin/content-store";
+import SanitizedHTML from "@/components/SanitizedHTML";
 
 const ETIQUETTE_SLIDES = [
   {
@@ -77,12 +79,34 @@ const ETIQUETTE_SLIDES = [
 const formatStepper = (index: number, total: number) =>
   `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
 
+type SlideItem = {
+  title: string;
+  description: string;
+  image: string;
+};
+
 const BasicEtiquetteSection = () => {
   const [api, setApi] = useState<UseEmblaCarouselType[1] | null>(null);
   const [current, setCurrent] = useState(0);
   const autoplayPlugin = useRef(
     Autoplay({ delay: 4000, stopOnInteraction: false })
   );
+  const etiquetteSlides = useAdminContentStore(
+    (state) => state.collections.etiquetteSlides
+  );
+
+  const slides: SlideItem[] = useMemo(() => {
+    if (!etiquetteSlides.length) {
+      return ETIQUETTE_SLIDES;
+    }
+    return etiquetteSlides.map((slide, index) => ({
+      title: slide.title,
+      description: slide.description,
+      image:
+        slide.imageUrl ||
+        ETIQUETTE_SLIDES[index % ETIQUETTE_SLIDES.length].image,
+    }));
+  }, [etiquetteSlides]);
 
   useEffect(() => {
     if (!api) return;
@@ -119,8 +143,8 @@ const BasicEtiquetteSection = () => {
         onMouseLeave={autoplayPlugin.current.reset}
       >
         <CarouselContent className="-ml-0">
-          {ETIQUETTE_SLIDES.map((slide) => (
-            <CarouselItem key={slide.title} className="!pl-0 h-[80vh]">
+          {slides.map((slide) => (
+            <CarouselItem key={`${slide.title}-${slide.description}`} className="!pl-0 h-[80vh]">
               <div className="grid gap-0 lg:grid-cols-2">
                 <div className="h-full w-full">
                   <img
@@ -145,7 +169,7 @@ const BasicEtiquetteSection = () => {
                       <img src={BlackArrowLeft} alt="black-arrow-left" />
                     </button>
                     <span className="text-2xl">
-                      {formatStepper(current, ETIQUETTE_SLIDES.length)}
+                      {formatStepper(current, slides.length)}
                     </span>
                     <button
                       type="button"
@@ -160,9 +184,10 @@ const BasicEtiquetteSection = () => {
                   <p className="mt-6 text-xl uppercase tracking-[0.3em] text-[#160003]">
                     {slide.title}
                   </p>
-                  <p className="mt-6 mx-auto max-w-sm text-center text-[#160003]/75">
-                    {slide.description}
-                  </p>
+                  <SanitizedHTML
+                    html={slide.description}
+                    className="mt-6 mx-auto max-w-sm text-center text-[#160003]/75"
+                  />
                 </div>
               </div>
             </CarouselItem>

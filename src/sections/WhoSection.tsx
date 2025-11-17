@@ -23,6 +23,8 @@ import valuesConsent from "../assets/value-consent.jpg";
 import EtiquetteCenter from "../assets/etiquette-center.jpg";
 import WhatsOn from "../assets/whats-on-text.svg";
 import UNLSHSocietyText from "../assets/UNLSH_society-text.svg";
+import { useAdminContentStore } from "@/sections/admin/content-store";
+import SanitizedHTML from "@/components/SanitizedHTML";
 
 const SOCIETY_HIGHLIGHTS = [
   {
@@ -132,6 +134,12 @@ const WhoSection = () => {
   const [galleryApi, setGalleryApi] = useState<UseEmblaCarouselType[1] | null>(
     null
   );
+  const highlightEntries = useAdminContentStore(
+    (state) => state.collections.societyHighlights
+  );
+  const societyHighlights = highlightEntries.length
+    ? highlightEntries
+    : SOCIETY_HIGHLIGHTS;
 
   useEffect(() => {
     if (isGalleryOpen && galleryApi) {
@@ -157,15 +165,16 @@ const WhoSection = () => {
           </div>
 
           <div className="mt-12 grid gap-10 lg:grid-cols-3">
-            {SOCIETY_HIGHLIGHTS.map((item) => (
+            {societyHighlights.map((item) => (
               <article key={item.title} className="px-6 py-8">
                 <h4 className="mt-4 font-iowan text-2xl text-[#ff3944]">
                   {item.title}
                 </h4>
                 <div className="mt-3 h-[5px] w-full bg-[#ff3f43]" />
-                <p className="mt-6 text-justify leading-relaxed text-white/80">
-                  {item.description}
-                </p>
+                <SanitizedHTML
+                  className="mt-6 text-justify leading-relaxed text-white/80"
+                  html={item.description}
+                />
               </article>
             ))}
           </div>

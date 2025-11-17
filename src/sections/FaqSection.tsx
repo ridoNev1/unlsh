@@ -5,6 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useAdminContentStore } from "@/sections/admin/content-store";
+import SanitizedHTML from "@/components/SanitizedHTML";
 
 const FAQS = [
   {
@@ -51,6 +53,8 @@ const FAQS = [
 ];
 
 const FaqSection = () => {
+  const faqEntries = useAdminContentStore((state) => state.collections.faqs);
+  const items = faqEntries.length ? faqEntries : FAQS;
   return (
     <section
       id="faq"
@@ -62,7 +66,7 @@ const FaqSection = () => {
         </div>
         <div>
           <Accordion type="single" collapsible className="space-y-4">
-            {FAQS.map((faq, index) => (
+            {items.map((faq, index) => (
               <AccordionItem
                 key={faq.question}
                 value={`faq-${index}`}
@@ -72,7 +76,7 @@ const FaqSection = () => {
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-base font-medium leading-relaxed text-black/80">
-                  {faq.answer}
+                  <SanitizedHTML html={faq.answer} />
                 </AccordionContent>
               </AccordionItem>
             ))}

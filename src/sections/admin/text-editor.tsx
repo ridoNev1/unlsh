@@ -150,6 +150,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editorState.canBold}
         className={getButtonClass(editorState.isBold)}
@@ -159,6 +160,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editorState.canItalic}
         className={getButtonClass(editorState.isItalic)}
@@ -168,6 +170,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editorState.canStrike}
         className={getButtonClass(editorState.isStrike)}
@@ -177,6 +180,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={!editorState.canCode}
         className={getButtonClass(editorState.isCode)}
@@ -187,6 +191,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={getButtonClass(editorState.isParagraph)}
       >
@@ -195,6 +200,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={getButtonClass(editorState.isHeading1)}
       >
@@ -203,6 +209,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={getButtonClass(editorState.isHeading2)}
       >
@@ -211,6 +218,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         className={getButtonClass(editorState.isHeading3)}
       >
@@ -220,6 +228,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={getButtonClass(editorState.isBulletList)}
       >
@@ -228,6 +237,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={getButtonClass(editorState.isOrderedList)}
       >
@@ -236,6 +246,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={openLinkDialog}
         className={getButtonClass(editorState.isLink)}
       >
@@ -244,6 +255,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().unsetLink().run()}
       >
         <IconLinkOff className="h-4 w-4" />
@@ -251,6 +263,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={getButtonClass(editorState.isBlockquote)}
       >
@@ -259,6 +272,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
       >
         <IconMinus className="h-4 w-4" />
@@ -267,6 +281,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().unsetAllMarks().run()}
       >
         <IconEraser className="h-4 w-4" />
@@ -274,6 +289,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().setHardBreak().run()}
       >
         <CornerDownLeft className="h-4 w-4" />
@@ -281,6 +297,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().undo().run()}
         disabled={!editorState.canUndo}
       >
@@ -289,6 +306,7 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        type="button"
         onClick={() => editor.chain().focus().redo().run()}
         disabled={!editorState.canRedo}
       >

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
@@ -9,6 +9,7 @@ import { Toaster } from "./components/ui/sonner";
 import LoginPage from "./pages/admin/login";
 import { AdminAuthProvider } from "@/sections/admin/auth-context";
 import ProtectedAdminRoute from "@/sections/admin/ProtectedAdminRoute";
+import { useAdminContentStore } from "@/sections/admin/content-store";
 
 const ScrollToHash = () => {
   const location = useLocation();
@@ -31,6 +32,17 @@ const ScrollToHash = () => {
 };
 
 const App = () => {
+  const fetchCollections = useAdminContentStore((state) => state.fetchCollections);
+  const bootstrapGuard = useRef(false);
+
+  useEffect(() => {
+    if (bootstrapGuard.current) {
+      return;
+    }
+    bootstrapGuard.current = true;
+    fetchCollections();
+  }, [fetchCollections]);
+
   return (
     <AdminAuthProvider>
       <ScrollToHash />

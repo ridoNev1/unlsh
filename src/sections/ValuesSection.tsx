@@ -13,6 +13,8 @@ import ConnectionText from "../assets/typography/connection_text.svg";
 import ConsentText from "../assets/typography/consent_text.svg";
 import FreedomText from "../assets/typography/freedom_text.svg";
 import SafeSpaceText from "../assets/typography/safe_space_text.svg";
+import { useAdminContentStore } from "@/sections/admin/content-store";
+import SanitizedHTML from "@/components/SanitizedHTML";
 
 const VALUE_CAROUSEL_ITEMS = [
   {
@@ -66,13 +68,23 @@ const VALUE_HIGHLIGHTS = [
 ];
 
 const ValuesSection = () => {
+  const storedCards = useAdminContentStore((state) => state.collections.valueCards);
   const valueCards = useMemo(() => {
-    return VALUE_HIGHLIGHTS.map((highlight, index) => ({
-      ...VALUE_CAROUSEL_ITEMS[index],
-      image: highlight.image,
-      labelSrc: highlight.labelSrc,
-    }));
-  }, []);
+    const source = storedCards.length ? storedCards : VALUE_CAROUSEL_ITEMS;
+    return source.map((card, index) => {
+      const fallback = VALUE_CAROUSEL_ITEMS[index % VALUE_CAROUSEL_ITEMS.length];
+      const highlight = VALUE_HIGHLIGHTS[index % VALUE_HIGHLIGHTS.length];
+      return {
+        title: card.title,
+        description: card.description,
+        wrapperClasses: card.wrapperClasses || fallback.wrapperClasses,
+        accentClasses: card.accentClasses || fallback.accentClasses,
+        descriptionClasses: card.descriptionClasses || fallback.descriptionClasses,
+        image: highlight.image,
+        labelSrc: highlight.labelSrc,
+      };
+    });
+  }, [storedCards]);
 
   return (
     <section id="values" className="beige-background text-[#2e0208]">
@@ -122,9 +134,11 @@ const ValuesSection = () => {
               >
                 <span className="font-avenir text-lg uppercase">{item.title}</span>
                 <span className={`h-12 w-px ${item.accentClasses}`} aria-hidden="true" />
-                <p className={`text-xs sm:text-sm ${item.descriptionClasses}`}>
-                  {item.description}
-                </p>
+                <SanitizedHTML
+                  as="div"
+                  className={`text-xs sm:text-sm ${item.descriptionClasses}`}
+                  html={item.description}
+                />
               </div>
             </div>
           </article>

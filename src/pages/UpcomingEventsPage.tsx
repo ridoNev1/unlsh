@@ -3,6 +3,8 @@ import Header from "../sections/Header";
 import Footer from "../sections/Footer";
 import { OFFERINGS } from "../data/events";
 import importantBg from "../assets/important-bg.png";
+import { useAdminContentStore } from "@/sections/admin/content-store";
+import SanitizedHTML from "@/components/SanitizedHTML";
 
 const UPCOMING_EVENTS = [
   {
@@ -27,12 +29,18 @@ const UPCOMING_EVENTS = [
     location: "Clifftop Residency, Uluwatu",
     description:
       "Four days of curated beach excursions, sensual rituals, and sunset play parties. Includes boutique lodging, gourmet dining, and mentorship sessions with our Angels.",
-    highlights: ["All-Inclusive Stay", "Sunset Ceremonies", "Mentorship Circles"],
+    highlights: [
+      "All-Inclusive Stay",
+      "Sunset Ceremonies",
+      "Mentorship Circles",
+    ],
   },
 ];
 
 const UpcomingEventsPage = () => {
-  const featuredEvent = UPCOMING_EVENTS[0];
+  const events = useAdminContentStore((state) => state.collections.events);
+  const upcomingEvents = events.length ? events : UPCOMING_EVENTS;
+  const featuredEvent = upcomingEvents[0];
 
   return (
     <div className="min-h-screen bg-[#120104] font-avenir text-white">
@@ -40,7 +48,10 @@ const UpcomingEventsPage = () => {
       <main>
         <section
           className="relative isolate overflow-hidden bg-[#150005]"
-          style={{ backgroundImage: `url(${importantBg})`, backgroundSize: "cover" }}
+          style={{
+            backgroundImage: `url(${importantBg})`,
+            backgroundSize: "cover",
+          }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-[#1c0409]/92 via-[#150005]/88 to-[#340a16]/90" />
           <div className="relative mx-auto max-w-6xl px-6 py-24">
@@ -53,7 +64,10 @@ const UpcomingEventsPage = () => {
                   Upcoming Events
                 </h1>
                 <p className="mt-6 max-w-xl text-base text-[#fde9df]/80">
-                  RSVP windows open in waves for members and invited guests. Explore the next experiences on our calendar, immerse in the mood, and register your interest early—every room is intentionally kept intimate.
+                  RSVP windows open in waves for members and invited guests.
+                  Explore the next experiences on our calendar, immerse in the
+                  mood, and register your interest early—every room is
+                  intentionally kept intimate.
                 </p>
                 <div className="mt-10 flex flex-wrap gap-4 text-xs uppercase tracking-[0.4em]">
                   <Link
@@ -70,9 +84,10 @@ const UpcomingEventsPage = () => {
                   </Link>
                 </div>
                 <p className="mt-8 max-w-xl text-sm text-[#fde9df]/60">
-                  Members receive curated recommendations, dress code briefings, and staggered RSVP
-                  access tailored to their desires. Share your intentions and our concierge will
-                  guide you toward the right gathering.
+                  Members receive curated recommendations, dress code briefings,
+                  and staggered RSVP access tailored to their desires. Share
+                  your intentions and our concierge will guide you toward the
+                  right gathering.
                 </p>
               </div>
 
@@ -92,9 +107,11 @@ const UpcomingEventsPage = () => {
                       <span className="h-px w-8 bg-[#fde9df]/40" />
                       <span>{featuredEvent.location}</span>
                     </div>
-                    <p className="text-sm leading-relaxed text-[#fde9df]/75">
-                      {featuredEvent.description}
-                    </p>
+                    <SanitizedHTML
+                      as="div"
+                      className="text-sm leading-relaxed text-[#fde9df]/75"
+                      html={featuredEvent.description}
+                    />
                     {featuredEvent.highlights?.length ? (
                       <ul className="mt-auto grid gap-3 text-left">
                         {featuredEvent.highlights.map((highlight) => (
@@ -133,14 +150,14 @@ const UpcomingEventsPage = () => {
                 </h2>
               </div>
               <p className="max-w-xl text-sm text-[#3a0c12]/80">
-                Our facilitators craft each moment around consent, curiosity, and sensory interplay.
-                Discover which format aligns with your intentions, then reach out to our concierge
-                for availability.
+                Our facilitators craft each moment around consent, curiosity,
+                and sensory interplay. Discover which format aligns with your
+                intentions, then reach out to our concierge for availability.
               </p>
             </header>
 
             <div className="mt-16 grid gap-10">
-              {UPCOMING_EVENTS.map((event, index) => {
+              {upcomingEvents.map((event, index) => {
                 const isFeatured = index === 0;
 
                 return (
@@ -176,9 +193,11 @@ const UpcomingEventsPage = () => {
                           Join Waitlist
                         </Link>
                       </header>
-                      <p className="text-sm leading-relaxed text-[#3a0c12]">
-                        {event.description}
-                      </p>
+                      <SanitizedHTML
+                        as="div"
+                        className="text-sm leading-relaxed text-[#3a0c12]"
+                        html={event.description}
+                      />
                       {event.highlights?.length ? (
                         <ul className="flex flex-wrap gap-3">
                           {event.highlights.map((highlight) => (
@@ -211,9 +230,9 @@ const UpcomingEventsPage = () => {
               Secure Your RSVP Window
             </h2>
             <p className="mx-auto mt-6 max-w-3xl text-sm text-[#fde9df]/70">
-              Share your desires and boundaries with our concierge. We curate matches, craft
-              introductions, and unlock the spaces that fit your expression—long before RSVP links go
-              public.
+              Share your desires and boundaries with our concierge. We curate
+              matches, craft introductions, and unlock the spaces that fit your
+              expression—long before RSVP links go public.
             </p>
 
             <div className="mt-12 grid gap-6 text-left md:grid-cols-3">
@@ -222,8 +241,8 @@ const UpcomingEventsPage = () => {
                   1. Introduce Yourself
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-[#fde9df]/75">
-                  Complete a private intake so we can understand your dynamic, curiosities, and past
-                  experience in curated play.
+                  Complete a private intake so we can understand your dynamic,
+                  curiosities, and past experience in curated play.
                 </p>
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
@@ -231,8 +250,8 @@ const UpcomingEventsPage = () => {
                   2. Curate The Fit
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-[#fde9df]/75">
-                  Our Angels pair you with the evenings and play partners that mirror your boundaries
-                  and stretch you gently.
+                  Our Angels pair you with the evenings and play partners that
+                  mirror your boundaries and stretch you gently.
                 </p>
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
@@ -240,8 +259,8 @@ const UpcomingEventsPage = () => {
                   3. RSVP With Ease
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-[#fde9df]/75">
-                  Receive priority RSVP windows, dress code briefings, and concierge support before,
-                  during, and after each gathering.
+                  Receive priority RSVP windows, dress code briefings, and
+                  concierge support before, during, and after each gathering.
                 </p>
               </div>
             </div>
@@ -273,8 +292,9 @@ const UpcomingEventsPage = () => {
                 Curated Experiences
               </h2>
               <p className="mx-auto max-w-3xl text-sm text-white/70">
-                Every gathering blends sensual education, play, and connection. Explore a preview of
-                the signature formats you’ll encounter across the season.
+                Every gathering blends sensual education, play, and connection.
+                Explore a preview of the signature formats you’ll encounter
+                across the season.
               </p>
             </header>
 
@@ -284,7 +304,9 @@ const UpcomingEventsPage = () => {
                   key={offering.title}
                   className="flex h-full flex-col border border-white/15 bg-black/40 px-8 py-8 shadow-lg"
                 >
-                  <h3 className="font-iowan text-2xl text-[#ff3944]">{offering.title}</h3>
+                  <h3 className="font-iowan text-2xl text-[#ff3944]">
+                    {offering.title}
+                  </h3>
                   <div className="mt-3 h-[4px] w-16 bg-[#ff3944]" />
                   <p className="mt-6 text-sm leading-relaxed text-white/85">
                     {offering.blurb}
