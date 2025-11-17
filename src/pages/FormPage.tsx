@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import countryCodesData from "../../CountryCodes.json";
+import { ComboboxSelect } from "@/components/ui/ComboboxSelect";
 
 const APPLYING_AS_VALUES = ["single", "couple"] as const;
 const CITY_VALUES = ["bali", "thailand", "global"] as const;
@@ -639,26 +640,15 @@ const FormPage = () => {
                           <form.Field name="whatsappDialCode">
                             {(field) => (
                               <div className="space-y-1">
-                                <select
+                                <ComboboxSelect
+                                  options={countryOptions}
                                   value={field.state.value}
-                                  onChange={(event) =>
-                                    field.handleChange(event.target.value)
+                                  onValueChange={(value) =>
+                                    field.handleChange(value)
                                   }
                                   onBlur={field.handleBlur}
-                                  aria-invalid={
-                                    !!field.state.meta.errors?.length
-                                  }
-                                  className="w-full rounded-xl border border-[#d9b3a3] bg-white px-3 py-2 text-left text-sm text-[#2d0610] md:text-base"
-                                >
-                                  {countryOptions.map((country) => (
-                                    <option
-                                      key={country.code}
-                                      value={country.dial_code}
-                                    >
-                                      {country.dial_code} — {country.name}
-                                    </option>
-                                  ))}
-                                </select>
+                                  isError={!!field.state.meta.errors?.length}
+                                />
                                 <FieldError
                                   message={getFieldError(
                                     field.state.meta,

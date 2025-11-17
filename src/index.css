@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -331,4 +332,40 @@ body {
   .who-section-bg::before {
     background-size: contain;
   }
+}
+
+.tiptap,
+.ProseMirror {
+  min-height: 300px;
+  outline-style: none;
+}
+
+.tiptap > :first-child {
+  margin-top: 0 !important;
+}
+
+.tiptap > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.tiptap ul p,
+.tiptap ol p {
+  margin: 0 !important;
+}
+
+.tiptap code {
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+}
+
+.tiptap pre code {
+  color: #a76ffb;
+}
+
+.tiptap blockquote {
+  border-left: 4px solid hsl(var(--primary));
+  padding-left: 1rem;
+  opacity: 0.9;
+  font-style: italic;
 }
