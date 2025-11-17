@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,6 +24,7 @@ import {
   useAdminContentStore,
   type AdminCollectionKey,
 } from "@/sections/admin/content-store";
+import { useAdminAuth } from "@/sections/admin/auth-context";
 import "@/index.css";
 
 const DEFAULT_SECTION: AdminCollectionKey = ADMIN_SECTIONS[0]?.id ?? "faqs";
@@ -36,12 +38,19 @@ const AdminPage = () => {
   const isBootstrapped = useAdminContentStore((state) => state.isBootstrapped);
   const isLoading = useAdminContentStore((state) => state.isLoading);
   const error = useAdminContentStore((state) => state.error);
+  const { signOut, user } = useAdminAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isBootstrapped && !isLoading) {
       void fetchCollections();
     }
   }, [isBootstrapped, isLoading, fetchCollections]);
+
+  const handleLogout = () => {
+    signOut();
+    navigate("/admin/login", { replace: true });
+  };
 
   const ActiveSection = useMemo(() => {
     const match = ADMIN_SECTIONS.find(
@@ -89,6 +98,19 @@ const AdminPage = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
+            <div className="ml-auto flex items-center gap-3 text-sm text-white/70">
+              {user ? (
+                <span className="hidden sm:inline">{user.email}</span>
+              ) : null}
+              <Button
+                type="button"
+                variant="ghost"
+                className="border border-white/20 text-white hover:bg-white/10"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            </div>
           </header>
 
           <main className="space-y-8 px-6 py-8 bg-[#120104]">

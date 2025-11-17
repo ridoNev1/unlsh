@@ -5,6 +5,10 @@ import HomePage from "./pages/HomePage";
 import UpcomingEventsPage from "./pages/UpcomingEventsPage";
 import FormPage from "./pages/FormPage";
 import AdminPage from "./pages/admin/dashboard/admin-page";
+import { Toaster } from "./components/ui/sonner";
+import LoginPage from "./pages/admin/login";
+import { AdminAuthProvider } from "@/sections/admin/auth-context";
+import ProtectedAdminRoute from "@/sections/admin/ProtectedAdminRoute";
 
 const ScrollToHash = () => {
   const location = useLocation();
@@ -28,16 +32,25 @@ const ScrollToHash = () => {
 
 const App = () => {
   return (
-    <>
+    <AdminAuthProvider>
       <ScrollToHash />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/upcoming-events" element={<UpcomingEventsPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/contact" element={<FormPage />} />
-        <Route path="/admin-dashboard" element={<AdminPage />} />
+        <Route
+          path="/admin-dashboard"
+          element={
+            <ProtectedAdminRoute>
+              <AdminPage />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route path="/admin/login" element={<LoginPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+      <Toaster />
+    </AdminAuthProvider>
   );
 };
 

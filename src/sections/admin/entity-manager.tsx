@@ -12,7 +12,18 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { ChevronDown } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import type {
   AdminCollectionKey,
   CollectionInput,
@@ -245,7 +256,7 @@ interface DateTimeFieldProps {
 }
 
 const DEFAULT_TIME = "19:00";
-const DATE_FORMATTER = new Intl.DateTimeFormat("id-ID", {
+const DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   month: "long",
   year: "numeric",
@@ -296,7 +307,7 @@ const DateTimeField = ({
             <Button
               type="button"
               variant="ghost"
-              className="flex-1 justify-between border border-white/15 bg-[#120104] text-white hover:bg-[#2d0a15]"
+              className="flex-1 justify-between border border-white/15 bg-[#120104] text-white hover:bg-[#120104] hover:text-white"
             >
               <span>{buttonLabel}</span>
               <ChevronDown className="h-4 w-4 opacity-70" />
@@ -462,21 +473,15 @@ export function EntityManager<K extends AdminCollectionKey>({
   const createRecord = useAdminContentStore((state) => state.createRecord);
   const updateRecord = useAdminContentStore((state) => state.updateRecord);
   const deleteRecord = useAdminContentStore((state) => state.deleteRecord);
-  const lastMutation = useAdminContentStore((state) => state.lastMutation);
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<
+    ContentCollections[K][number] | null
+  >(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const { getPrimaryText, getSecondaryText, getTags } = listConfig;
-
-  const statusMessage = useMemo(() => {
-    if (!lastMutation || lastMutation.collection !== collection) {
-      return null;
-    }
-    return `${lastMutation.action.toUpperCase()} berhasil untuk ${
-      lastMutation.label ?? "item"
-    }`;
-  }, [collection, lastMutation]);
 
   const form = useForm({
     defaultValues,
@@ -487,14 +492,28 @@ export function EntityManager<K extends AdminCollectionKey>({
     onSubmit: async ({ value, formApi }) => {
       setIsSubmitting(true);
       try {
+        if (!editingId && !allowCreate) {
+          toast.error("Konten ini hanya dapat diperbarui.");
+          return;
+        }
         const payload = value as CollectionInput<K>;
         if (editingId) {
-          await updateRecord(collection, editingId, payload);
+          const updated = await updateRecord(collection, editingId, payload);
+          toast.success(
+            `${getPrimaryText(updated) ?? "Konten"} berhasil diperbarui.`
+          );
         } else {
-          await createRecord(collection, payload);
+          const created = await createRecord(collection, payload);
+          toast.success(
+            `${getPrimaryText(created) ?? "Konten"} berhasil ditambahkan.`
+          );
         }
         formApi.reset();
         setEditingId(null);
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : "Gagal menyimpan konten."
+        );
       } finally {
         setIsSubmitting(false);
       }
@@ -526,10 +545,33 @@ export function EntityManager<K extends AdminCollectionKey>({
     form.reset(rest as FormValues);
   }, [editingId, records, form, defaultValues]);
 
-  const handleDelete = async (id: string) => {
-    await deleteRecord(collection, id);
-    if (editingId === id) {
-      cancelEdit();
+  const requestDelete = (record: ContentCollections[K][number]) => {
+    if (!allowDelete) return;
+    setPendingDelete(record);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setIsDeleteDialogOpen(false);
+    setPendingDelete(null);
+  };
+
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    try {
+      await deleteRecord(collection, pendingDelete.id);
+      toast.success(
+        `${getPrimaryText(pendingDelete) ?? "Konten"} berhasil dihapus.`
+      );
+      if (editingId === pendingDelete.id) {
+        cancelEdit();
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Gagal menghapus konten."
+      );
+    } finally {
+      closeDeleteDialog();
     }
   };
 
@@ -545,11 +587,6 @@ export function EntityManager<K extends AdminCollectionKey>({
               {title}
             </h2>
           </div>
-          {statusMessage ? (
-            <span className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-emerald-200">
-              {statusMessage}
-            </span>
-          ) : null}
         </div>
         <p className="text-base text-[#fde9df]/80">{description}</p>
       </header>
@@ -587,7 +624,7 @@ export function EntityManager<K extends AdminCollectionKey>({
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="bg-white/10 text-white hover:bg-white/20"
+                        className="bg-white/10 text-white hover:text-white hover:bg-white/20"
                         onClick={() => startEdit(record)}
                       >
                         Edit
@@ -597,8 +634,8 @@ export function EntityManager<K extends AdminCollectionKey>({
                           type="button"
                           variant="ghost"
                           size="sm"
-                          className="bg-[#3a0c12] text-white hover:bg-[#52101a]"
-                          onClick={() => handleDelete(record.id)}
+                          className="bg-[#3a0c12] text-white hover:text-white hover:bg-[#52101a]"
+                          onClick={() => requestDelete(record)}
                         >
                           Hapus
                         </Button>
@@ -785,6 +822,42 @@ export function EntityManager<K extends AdminCollectionKey>({
           </form>
         </div>
       </div>
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={(open) => {
+          setIsDeleteDialogOpen(open);
+          if (!open) {
+            setPendingDelete(null);
+          }
+        }}
+      >
+        <AlertDialogContent className="border-white/10 bg-[#1b0508] text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Hapus Konten?</AlertDialogTitle>
+            <AlertDialogDescription className="text-white/70">
+              {pendingDelete
+                ? `Anda yakin ingin menghapus "${getPrimaryText(
+                    pendingDelete
+                  )}"? Tindakan ini tidak dapat dibatalkan.`
+                : "Anda yakin ingin menghapus konten ini?"}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="border-white/20 bg-red-600 hover:text-white text-white hover:bg-red-600">
+              Batalkan
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-[#7d0f16] text-white hover:bg-[#52090e]"
+              onClick={(event) => {
+                event.preventDefault();
+                void confirmDelete();
+              }}
+            >
+              Hapus
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>
   );
 }

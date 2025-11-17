@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   IconBold,
@@ -16,17 +16,43 @@ import {
   IconMinus,
   IconRotate2,
   IconRotateClockwise2,
+  IconLink,
+  IconLinkOff,
 } from "@tabler/icons-react";
 import { TextStyleKit } from "@tiptap/extension-text-style";
+import LinkExtension from "@tiptap/extension-link";
 import type { Editor } from "@tiptap/react";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { cn } from "@/lib/utils";
 import { CornerDownLeft } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
-const extensions = [TextStyleKit, StarterKit];
+const extensions = [
+  TextStyleKit,
+  StarterKit,
+  LinkExtension.configure({
+    openOnClick: false,
+    autolink: true,
+    HTMLAttributes: {
+      target: "_blank",
+      rel: "noopener noreferrer",
+    },
+  }),
+];
 
 function MenuBar({ editor }: { editor: Editor }) {
+  const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
+  const [linkUrl, setLinkUrl] = useState("https://");
+  const [linkLabel, setLinkLabel] = useState("");
   const editorState = useEditorState({
     editor,
     selector: (ctx) => ({
@@ -43,10 +69,11 @@ function MenuBar({ editor }: { editor: Editor }) {
       isHeading2: ctx.editor.isActive("heading", { level: 2 }),
       isHeading3: ctx.editor.isActive("heading", { level: 3 }),
       isBulletList: ctx.editor.isActive("bulletList"),
-      isOrderedList: ctx.editor.isActive("orderedList"),
-      isCodeBlock: ctx.editor.isActive("codeBlock"),
-      isBlockquote: ctx.editor.isActive("blockquote"),
-      canUndo: ctx.editor.can().chain().undo().run(),
+    isOrderedList: ctx.editor.isActive("orderedList"),
+    isCodeBlock: ctx.editor.isActive("codeBlock"),
+    isBlockquote: ctx.editor.isActive("blockquote"),
+    isLink: ctx.editor.isActive("link"),
+    canUndo: ctx.editor.can().chain().undo().run(),
       canRedo: ctx.editor.can().chain().redo().run(),
     }),
   });
@@ -54,6 +81,69 @@ function MenuBar({ editor }: { editor: Editor }) {
   const getButtonClass = (isActive: boolean) =>
     isActive ? "bg-white/10 text-white" : "text-white/70";
   const buttonSize = "icon";
+
+  const openLinkDialog = () => {
+    const selection = editor.state.selection;
+    const selectedText = editor.state.doc.textBetween(
+      selection.from,
+      selection.to,
+      " "
+    );
+    const currentUrl = editor.getAttributes("link").href as string | undefined;
+    setLinkLabel(selectedText ?? "");
+    setLinkUrl(
+      currentUrl ?? (selectedText?.startsWith("http") ? selectedText : "https://")
+    );
+    setIsLinkDialogOpen(true);
+  };
+
+  const handleApplyLink = () => {
+    const href = linkUrl.trim();
+    if (!href) {
+      setIsLinkDialogOpen(false);
+      return;
+    }
+    const label = linkLabel.trim();
+    const { from, to } = editor.state.selection;
+    const hasSelection = to > from;
+
+    if (hasSelection) {
+      if (label) {
+        editor.chain().focus().insertContentAt({ from, to }, label).run();
+        editor
+          .chain()
+          .focus()
+          .setTextSelection({ from, to: from + label.length })
+          .extendMarkRange("link")
+          .setLink({ href })
+          .run();
+      } else {
+        editor.chain().focus().extendMarkRange("link").setLink({ href }).run();
+      }
+    } else {
+      const textToInsert = label || href;
+      const startPosition = editor.state.selection.from;
+      editor.chain().focus().insertContent(textToInsert).run();
+      editor
+        .chain()
+        .focus()
+        .setTextSelection({
+          from: startPosition,
+          to: startPosition + textToInsert.length,
+        })
+        .setLink({ href })
+        .run();
+    }
+
+    const finalPosition = editor.state.selection.to;
+    editor.chain().focus().setTextSelection(finalPosition).run();
+    const tr = editor.state.tr.setStoredMarks([]);
+    editor.view.dispatch(tr);
+
+    setLinkUrl("https://");
+    setLinkLabel("");
+    setIsLinkDialogOpen(false);
+  };
 
   return (
     <div className="sticky top-0 z-10 flex flex-wrap items-center gap-1 border-b border-white/10 bg-[#1b0508] p-2">
@@ -146,6 +236,21 @@ function MenuBar({ editor }: { editor: Editor }) {
       <Button
         variant="ghost"
         size={buttonSize}
+        onClick={openLinkDialog}
+        className={getButtonClass(editorState.isLink)}
+      >
+        <IconLink className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="ghost"
+        size={buttonSize}
+        onClick={() => editor.chain().focus().unsetLink().run()}
+      >
+        <IconLinkOff className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="ghost"
+        size={buttonSize}
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={getButtonClass(editorState.isBlockquote)}
       >
@@ -189,6 +294,58 @@ function MenuBar({ editor }: { editor: Editor }) {
       >
         <IconRotateClockwise2 className="h-4 w-4" />
       </Button>
+      <Dialog open={isLinkDialogOpen} onOpenChange={setIsLinkDialogOpen}>
+        <DialogContent className="border-white/20 bg-[#120104] text-white">
+          <DialogHeader>
+            <DialogTitle>Tambahkan Link</DialogTitle>
+            <DialogDescription className="text-white/60">
+              Pilih teks di editor atau isi label baru untuk membuat tautan.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-xs uppercase tracking-[0.4em] text-white/50">
+                URL
+              </label>
+              <Input
+                value={linkUrl}
+                onChange={(event) => setLinkUrl(event.target.value)}
+                className="border-white/20 bg-black/30 text-white placeholder-white/40"
+                placeholder="https://unlsh.society"
+                type="url"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs uppercase tracking-[0.4em] text-white/50">
+                Label (Opsional)
+              </label>
+              <Input
+                value={linkLabel}
+                onChange={(event) => setLinkLabel(event.target.value)}
+                className="border-white/20 bg-black/30 text-white placeholder-white/40"
+                placeholder="Teks yang ditampilkan"
+              />
+            </div>
+          </div>
+          <DialogFooter className="mt-4 gap-2 sm:gap-3">
+            <Button
+              type="button"
+              variant="ghost"
+              className="border border-white/20 text-white hover:bg-white/5"
+              onClick={() => setIsLinkDialogOpen(false)}
+            >
+              Batal
+            </Button>
+            <Button
+              type="button"
+              className="bg-[#ff6f61] text-white hover:bg-[#ff3f43]"
+              onClick={handleApplyLink}
+            >
+              Simpan Link
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

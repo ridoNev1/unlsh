@@ -149,8 +149,8 @@ const TestimonialsSection = () => (
 
 const ValuesSection = () => (
   <EntityManager
-    title="Value Carousel"
-    description="Kelola prinsip utama yang tampil dalam kartu flip."
+    title="Value Cards"
+    description="Kelola prinsip utama UNLSH yang muncul sebagai kartu flip."
     collection="valueCards"
     schema={valueSchema}
     defaultValues={valueDefaults}
@@ -253,7 +253,7 @@ export const ADMIN_SECTIONS: AdminSectionDefinition[] = [
   },
   {
     id: "valueCards",
-    title: "Value Carousel",
+    title: "Value Cards",
     description: "Nilai inti UNLSH.",
     render: ValuesSection,
   },
